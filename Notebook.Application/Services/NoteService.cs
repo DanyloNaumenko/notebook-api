@@ -83,11 +83,12 @@ public class NoteService : INoteService
             Content = updateNoteDto.Content,
             CreationTime = existingNote.CreationTime
         };
+        
         return _noteRepository.Update(newNote, userId);
     }
 
     public bool Delete(Guid noteId, Guid userId)
     {
-        throw new NotImplementedException();
+        return _noteRepository.Delete(noteId, userId);
     }
 }
