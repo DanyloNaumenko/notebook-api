@@ -73,7 +73,17 @@ public class NoteService : INoteService
 
     public bool Update(Guid noteId, UpdateNoteDto updateNoteDto, Guid userId)
     {
-        throw new NotImplementedException();
+        var existingNote = _noteRepository.Get(noteId, userId);
+        if (existingNote == null) return false;
+        
+        var newNote = new Note
+        {
+            Id = noteId,
+            Title = updateNoteDto.Title,
+            Content = updateNoteDto.Content,
+            CreationTime = existingNote.CreationTime
+        };
+        return _noteRepository.Update(newNote, userId);
     }
 
     public bool Delete(Guid noteId, Guid userId)
