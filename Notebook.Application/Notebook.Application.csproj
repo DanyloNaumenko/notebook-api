@@ -10,4 +10,8 @@
       <Folder Include="Services\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Notebook.Domain\Notebook.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
