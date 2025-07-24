@@ -1,10 +1,20 @@
+using Microsoft.Extensions.Logging;
 using Notebook.Application.DTOs.NoteDTO;
 using Notebook.Application.Interfaces;
+using Notebook.Domain.Interfaces.Repositories;
 
 namespace Notebook.Application.Services;
 
 public class NoteService : INoteService
 {
+
+    private INoteRepository _noteRepository;
+    private ILogger<NoteService> _logger;
+    public NoteService(INoteRepository noteRepository ,ILogger<NoteService> logger)
+    {
+        _noteRepository = noteRepository;
+        _logger = logger;
+    }
     public NoteDto Create(CreateNoteDto createNoteDto, Guid userId)
     {
         throw new NotImplementedException();
