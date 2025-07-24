@@ -59,7 +59,16 @@ public class NoteService : INoteService
 
     public NoteDto? GetById(Guid noteId, Guid userId)
     {
-        throw new NotImplementedException();
+        var note = _noteRepository.Get(noteId, userId);
+        if (note == null) return null;
+        var noteDto = new NoteDto
+        {
+            Id = note.Id,
+            Title = note.Title,
+            Content = note.Content,
+            CreationTime = note.CreationTime
+        };
+        return noteDto;
     }
 
     public bool Update(Guid noteId, UpdateNoteDto updateNoteDto, Guid userId)
