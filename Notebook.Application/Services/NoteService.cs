@@ -9,8 +9,8 @@ namespace Notebook.Application.Services;
 public class NoteService : INoteService
 {
 
-    private INoteRepository _noteRepository;
-    private ILogger<NoteService> _logger;
+    private readonly INoteRepository _noteRepository;
+    private readonly ILogger<NoteService> _logger;
     public NoteService(INoteRepository noteRepository ,ILogger<NoteService> logger)
     {
         _noteRepository = noteRepository;
@@ -81,7 +81,8 @@ public class NoteService : INoteService
             Id = noteId,
             Title = updateNoteDto.Title,
             Content = updateNoteDto.Content,
-            CreationTime = existingNote.CreationTime
+            CreationTime = existingNote.CreationTime,
+            UserId = userId,
         };
         
         return _noteRepository.Update(newNote, userId);
