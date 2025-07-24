@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Notebook.Application.DTOs.NoteDTO;
 using Notebook.Application.Interfaces;
-using Notebook.Domain.Interfaces.Repositories;
+using Notebook.Domain.Interfaces;
 using Notebook.Domain.Models;
 
 namespace Notebook.Application.Services;

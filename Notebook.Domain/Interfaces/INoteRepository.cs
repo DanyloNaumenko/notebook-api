@@ -1,6 +1,6 @@
 using Notebook.Domain.Models;
 
-namespace Notebook.Domain.Interfaces.Repositories;
+namespace Notebook.Domain.Interfaces;
 
 public interface INoteRepository
 {
