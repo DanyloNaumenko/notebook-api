@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using Notebook.Application.DTOs.NoteDTO;
 using Notebook.Application.Interfaces;
 using Notebook.Domain.Interfaces.Repositories;
+using Notebook.Domain.Models;
 
 namespace Notebook.Application.Services;
 
@@ -17,7 +18,25 @@ public class NoteService : INoteService
     }
     public NoteDto Create(CreateNoteDto createNoteDto, Guid userId)
     {
-        throw new NotImplementedException();
+        var note = new Note
+        {
+            Id = Guid.NewGuid(),
+            UserId = userId,
+            Title = createNoteDto.Title,
+            Content = createNoteDto.Content,
+            CreationTime = DateTime.Now,
+        };
+        
+        _noteRepository.Create(note);
+        
+        var noteDto = new NoteDto
+        {
+            Id = note.Id,
+            Title = note.Title, 
+            Content = note.Content,
+            CreationTime = note.CreationTime,
+        };
+        return noteDto;
     }
 
     public ICollection<NoteDto> GetAll(Guid userId)

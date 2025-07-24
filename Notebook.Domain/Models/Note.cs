@@ -9,5 +9,4 @@ public record Note
     public DateTime CreationTime { get; init; }
     
     public Guid UserId { get; init; }
-    public User User { get; init; } = null!;
 }

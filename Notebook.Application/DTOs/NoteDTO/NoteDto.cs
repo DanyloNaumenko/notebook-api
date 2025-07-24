@@ -2,6 +2,7 @@ namespace Notebook.Application.DTOs.NoteDTO;
 
 public class NoteDto
 {
+    
     public Guid Id { get; set; }
     
     public string Title { get; set; } = null!;
