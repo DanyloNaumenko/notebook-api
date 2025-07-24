@@ -41,7 +41,20 @@ public class NoteService : INoteService
 
     public ICollection<NoteDto> GetAll(Guid userId)
     {
-        throw new NotImplementedException();
+        ICollection<Note> notes = _noteRepository.GetAll(userId);
+        var noteDtos = new List<NoteDto>();
+        
+        foreach (var note in notes)
+        {
+            noteDtos.Add(new NoteDto
+            {
+                Id = note.Id,
+                Title = note.Title,
+                Content = note.Content,
+                CreationTime = note.CreationTime
+            });
+        }
+        return noteDtos;
     }
 
     public NoteDto? GetById(Guid noteId, Guid userId)
