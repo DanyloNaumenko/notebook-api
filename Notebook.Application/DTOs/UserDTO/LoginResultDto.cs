@@ -7,6 +7,6 @@ public class LoginResultDto
     public string? Token { get; set; } // JWT-токен
 
     public string? ErrorMessage { get; set; }
-
+    
     public Guid? UserId { get; set; }
 }
