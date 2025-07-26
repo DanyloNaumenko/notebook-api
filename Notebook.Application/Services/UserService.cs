@@ -44,7 +44,8 @@ public class UserService : IUserService
         if (_userRepository.ExistsByLogin(loginUserDto.Login))
         {
             var user = _userRepository.GetByLogin(loginUserDto.Login)!;
-            if (user.PasswordHash == _passwordHasher.HashPassword(user, loginUserDto.Password))
+            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginUserDto.Password);
+            if (result == PasswordVerificationResult.Success)
             {
                 return new LoginResultDto()
                 {
