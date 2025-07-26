@@ -107,6 +107,12 @@ public class UserService : IUserService
                 UpdatedUserDto = updatedUserDto
             };
         }
+
+        return new UpdateResultDto()
+        {
+            Success = false,
+            ErrorMessage = "User updating went wrong!"
+        };
     }
 
     public bool Delete(Guid userId)
