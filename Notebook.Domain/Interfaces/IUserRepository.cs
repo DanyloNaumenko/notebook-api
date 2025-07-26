@@ -10,5 +10,6 @@ public interface IUserRepository
     public ICollection<User> GetAll();
     public bool Update(User newUser, Guid id);
     public bool Delete(Guid id);
-    public bool Exists(string login);
+    public bool ExistsByLogin(string login);
+    public bool ExistsById(Guid id);
 }

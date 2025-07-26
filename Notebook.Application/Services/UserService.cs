@@ -14,7 +14,7 @@ public class UserService : IUserService
     private readonly IPasswordHasher<User> _passwordHasher;
     public RegisterResultDto Register(RegisterUserDto registerUserDto)
     {
-        if (_userRepository.Exists(registerUserDto.Login))
+        if (_userRepository.ExistsByLogin(registerUserDto.Login))
         {
             return new RegisterResultDto()
             {
@@ -41,7 +41,7 @@ public class UserService : IUserService
 
     public LoginResultDto Login(LoginUserDto loginUserDto)
     {
-        if (_userRepository.Exists(loginUserDto.Login))
+        if (_userRepository.ExistsByLogin(loginUserDto.Login))
         {
             var user = _userRepository.GetByLogin(loginUserDto.Login)!;
             if (user.PasswordHash == _passwordHasher.HashPassword(user, loginUserDto.Password))
@@ -110,6 +110,8 @@ public class UserService : IUserService
 
     public bool Delete(Guid userId)
     {
-        throw new NotImplementedException();
+        if(_userRepository.ExistsById(userId))
+            return _userRepository.Delete(userId);
+        return false;
     }
 }
