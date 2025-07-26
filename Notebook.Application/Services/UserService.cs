@@ -81,7 +81,7 @@ public class UserService : IUserService
 
     public UpdateResultDto Update(Guid userId, UpdateUserDto updateUserDto)
     {
-        var existing = _userRepository.GetByLogin(updateUserDto.Login);
+        var existing = _userRepository.GetById(userId);
         if(existing == null) return new UpdateResultDto()
         {
             Success = false,
