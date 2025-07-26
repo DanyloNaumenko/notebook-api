@@ -4,8 +4,8 @@ namespace Notebook.Application.DTOs.UserDTO;
 
 public class RegisterUserDto
 {
-    [Required]
+    [Required(ErrorMessage = "Login is required")]
     public string Login { get; set; } = null!;
-    [Required]
+    [Required(ErrorMessage = "Password is required")]
     public string Password { get; set; } = null!;
 }

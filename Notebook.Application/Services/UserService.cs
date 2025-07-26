@@ -44,24 +44,38 @@ public class UserService : IUserService
         if (_userRepository.Exists(loginUserDto.Login))
         {
             var user = _userRepository.GetByLogin(loginUserDto.Login)!;
-            return new LoginResultDto()
+            if (user.PasswordHash == _passwordHasher.HashPassword(user, loginUserDto.Password))
             {
-                Success = true,
-                UserId = user.Id,
-                Token = ""
-            };
-        }
-        else
+                return new LoginResultDto()
+                {
+                    Success = true,
+                    UserId = user.Id,
+                    Token = ""
+                };
+            }
             return new LoginResultDto()
             {
                 Success = false,
-                ErrorMessage = "Invalid login user!"
+                ErrorMessage = "Login failed because of invalid password!"
             };
+        }
+        return new LoginResultDto()
+        {
+            Success = false,
+            ErrorMessage = "Login failed because of user does not exist! Maybe you wanted to register it?"
+        };
     }
 
     public UserDto? GetByLogin(string login)
     {
-        throw new NotImplementedException();
+        var user = _userRepository.GetByLogin(login);
+        if(user == null) return null;
+        var userDto = new UserDto()
+        {
+            Id = user.Id,
+            Login = login,
+        };
+        return userDto;
     }
 
     public bool Update(Guid userId, UpdateUserDto updateUserDto)
