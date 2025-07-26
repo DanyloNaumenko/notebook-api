@@ -78,9 +78,34 @@ public class UserService : IUserService
         return userDto;
     }
 
-    public bool Update(Guid userId, UpdateUserDto updateUserDto)
+    public UpdateResultDto Update(Guid userId, UpdateUserDto updateUserDto)
     {
-        throw new NotImplementedException();
+        var existing = _userRepository.GetByLogin(updateUserDto.Login);
+        if(existing == null) return new UpdateResultDto()
+        {
+            Success = false,
+            ErrorMessage = "User does not exist!"
+        };
+
+        var newUser = new User()
+        {
+            Id = userId,
+            Login = updateUserDto.Login,
+        };
+        newUser.PasswordHash = _passwordHasher.HashPassword(newUser, updateUserDto.Password);
+        if (_userRepository.Update(newUser, userId))
+        {
+            var updatedUserDto = new UserDto()
+            {
+                Id = newUser.Id,
+                Login = newUser.Login
+            };
+            return new UpdateResultDto()
+            {
+                Success = true,
+                UpdatedUserDto = updatedUserDto
+            };
+        }
     }
 
     public bool Delete(Guid userId)
