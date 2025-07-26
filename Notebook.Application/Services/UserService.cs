@@ -41,29 +41,28 @@ public class UserService : IUserService
 
     public LoginResultDto Login(LoginUserDto loginUserDto)
     {
-        if (_userRepository.ExistsByLogin(loginUserDto.Login))
-        {
-            var user = _userRepository.GetByLogin(loginUserDto.Login)!;
-            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginUserDto.Password);
-            if (result == PasswordVerificationResult.Success)
-            {
-                return new LoginResultDto()
-                {
-                    Success = true,
-                    UserId = user.Id,
-                    Token = ""
-                };
-            }
+        var user = _userRepository.GetByLogin(loginUserDto.Login);
+        if (user == null)
             return new LoginResultDto()
             {
                 Success = false,
-                ErrorMessage = "Login failed because of invalid password!"
+                ErrorMessage = "Login failed because of user does not exist! Maybe you wanted to register it?"
+            };
+        
+        var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginUserDto.Password);
+        if (result == PasswordVerificationResult.Success)
+        {
+            return new LoginResultDto()
+            {
+                Success = true,
+                UserId = user.Id,
+                Token = ""
             };
         }
         return new LoginResultDto()
         {
             Success = false,
-            ErrorMessage = "Login failed because of user does not exist! Maybe you wanted to register it?"
+            ErrorMessage = "Login failed because of invalid password!"
         };
     }
 
