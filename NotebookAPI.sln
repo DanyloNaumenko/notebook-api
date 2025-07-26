@@ -16,7 +16,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notrebook.DAL", "Notrebook.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notebook.Application", "Notebook.Application\Notebook.Application.csproj", "{C729D013-64EB-40CA-B48D-55D8C9A02A5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{A5AEC7F2-0E09-4EE7-9B1A-56B79ACB05F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notebook.Common", "Notebook.Common\Notebook.Common.csproj", "{A5AEC7F2-0E09-4EE7-9B1A-56B79ACB05F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

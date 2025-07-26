@@ -12,6 +12,17 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
     private readonly ILogger<UserService> _logger;
     private readonly IPasswordHasher<User> _passwordHasher;
+    
+    public UserService(
+        IUserRepository userRepository,
+        ILogger<UserService> logger,
+        IPasswordHasher<User> passwordHasher)
+    {
+        _userRepository = userRepository;
+        _logger = logger;
+        _passwordHasher = passwordHasher;
+    }
+    
     public RegisterResultDto Register(RegisterUserDto registerUserDto)
     {
         if (_userRepository.ExistsByLogin(registerUserDto.Login))

@@ -11,7 +11,9 @@ public class NoteService : INoteService
 
     private readonly INoteRepository _noteRepository;
     private readonly ILogger<NoteService> _logger;
-    public NoteService(INoteRepository noteRepository ,ILogger<NoteService> logger)
+    public NoteService(
+        INoteRepository noteRepository,
+        ILogger<NoteService> logger)
     {
         _noteRepository = noteRepository;
         _logger = logger;
