@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notebook.ConsolePresentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notebook.Domain", "Notebook.Domain\Notebook.Domain.csproj", "{FEA3B890-4D4B-40D5-9465-D6977042E193}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notrebook.DAL", "Notrebook.DAL\Notrebook.DAL.csproj", "{A6A13DE9-8F07-4F65-90BC-E00839FB2063}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notebook.DAL", "Notebook.DAL\Notebook.DAL.csproj", "{A6A13DE9-8F07-4F65-90BC-E00839FB2063}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notebook.Application", "Notebook.Application\Notebook.Application.csproj", "{C729D013-64EB-40CA-B48D-55D8C9A02A5B}"
 EndProject
