@@ -35,12 +35,28 @@ public class UserService : IUserService
         {
             Success = true,
             UserId = user.Id,
+            Token = ""
         };
     }
 
     public LoginResultDto Login(LoginUserDto loginUserDto)
     {
-        throw new NotImplementedException();
+        if (_userRepository.Exists(loginUserDto.Login))
+        {
+            var user = _userRepository.GetByLogin(loginUserDto.Login)!;
+            return new LoginResultDto()
+            {
+                Success = true,
+                UserId = user.Id,
+                Token = ""
+            };
+        }
+        else
+            return new LoginResultDto()
+            {
+                Success = false,
+                ErrorMessage = "Invalid login user!"
+            };
     }
 
     public UserDto? GetByLogin(string login)
