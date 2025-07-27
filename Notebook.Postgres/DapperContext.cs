@@ -4,7 +4,7 @@ using Npgsql;
 
 namespace Notebook.Postgres;
 
-public class DapperContext : IDbContext
+public class DapperContext : IDbContext 
 {
     private NpgsqlConnection _connection;
     public DapperContext(string connectionString)
