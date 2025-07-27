@@ -1,7 +1,7 @@
 using Notebook.Domain.Interfaces;
 using Notebook.Domain.Models;
 
-namespace Notebook.PostgreSql;
+namespace Notebook.Postgres;
 
 public class NoteRepository : INoteRepository
 {

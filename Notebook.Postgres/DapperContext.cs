@@ -2,7 +2,7 @@ using System.Data;
 using Notebook.Domain.Interfaces;
 using Npgsql;
 
-namespace Notebook.PostgreSql;
+namespace Notebook.Postgres;
 
 public class DapperContext : IDbContext
 {
