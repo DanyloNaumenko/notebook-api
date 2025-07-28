@@ -81,8 +81,8 @@ public class NoteService : INoteService
         var newNote = new Note
         {
             Id = noteId,
-            Title = updateNoteDto.Title,
-            Content = updateNoteDto.Content,
+            Title = updateNoteDto.Title ?? existingNote.Title,
+            Content = updateNoteDto.Content ?? existingNote.Content,
             CreationTime = existingNote.CreationTime,
             UserId = userId,
         };
