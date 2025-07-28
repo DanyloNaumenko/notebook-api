@@ -97,32 +97,29 @@ public class UserService : IUserService
             Success = false,
             ErrorMessage = "User does not exist!"
         };
-
         var newUser = new User()
         {
             Id = userId,
-            Login = updateUserDto.Login,
+            Login = updateUserDto.Login ?? existing.Login,
         };
-        newUser.PasswordHash = _passwordHasher.HashPassword(newUser, updateUserDto.Password);
-        if (_userRepository.Update(newUser, userId))
-        {
-            var updatedUserDto = new UserDto()
-            {
-                Id = newUser.Id,
-                Login = newUser.Login
-            };
+        newUser.PasswordHash = updateUserDto.Password != null ? _passwordHasher.HashPassword(newUser, updateUserDto.Password) : existing.PasswordHash;
+        if (!_userRepository.Update(newUser, userId))
             return new UpdateResultDto()
             {
-                Success = true,
-                UpdatedUserDto = updatedUserDto
+                Success = false,
+                ErrorMessage = "User updating went wrong!"
             };
-        }
-
+        var updatedUserDto = new UserDto()
+        {
+            Id = newUser.Id,
+            Login = newUser.Login
+        };
         return new UpdateResultDto()
         {
-            Success = false,
-            ErrorMessage = "User updating went wrong!"
+            Success = true,
+            UpdatedUserDto = updatedUserDto
         };
+
     }
 
     public bool Delete(Guid userId)
