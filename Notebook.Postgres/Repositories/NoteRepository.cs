@@ -47,6 +47,11 @@ public class NoteRepository : INoteRepository
 
     public bool Delete(Guid id, Guid userId)
     {
-        throw new NotImplementedException();
+        using var connection = _dbContext.CreateConnection();
+        var sql = @"delete from notes
+                    where id = @NoteId
+                    and userid = @UserId"; 
+        var result = connection.Execute(sql, new { NoteId = id, UserId = userId });
+        return Convert.ToBoolean(result);
     }
 }

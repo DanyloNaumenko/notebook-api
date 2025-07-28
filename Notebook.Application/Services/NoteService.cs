@@ -43,7 +43,7 @@ public class NoteService : INoteService
 
     public ICollection<NoteDto> GetAll(Guid userId)
     {
-        ICollection<Note> notes = _noteRepository.GetAll(userId);
+        ICollection<Note> notes = _noteRepository.GetAll(userId).ToList();
         var noteDtos = new List<NoteDto>();
         
         foreach (var note in notes)
