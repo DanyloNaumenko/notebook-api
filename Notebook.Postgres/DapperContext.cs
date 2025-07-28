@@ -6,15 +6,15 @@ namespace Notebook.Postgres;
 
 public class DapperContext : IDbContext 
 {
-    private NpgsqlConnection _connection;
+    private readonly string _connectionString;
     public DapperContext(string connectionString)
     {
-        _connection = new NpgsqlConnection(connectionString);
+        _connectionString = connectionString;
     }
-    
     public IDbConnection CreateConnection()
     {
-        _connection.Open();
-        return _connection;
+        var connection = new NpgsqlConnection(_connectionString);
+        connection.Open();
+        return connection;
     }
 }

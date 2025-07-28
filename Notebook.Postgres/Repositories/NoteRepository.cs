@@ -3,12 +3,11 @@ using Dapper;
 using Notebook.Domain.Interfaces;
 using Notebook.Domain.Models;
 
-namespace Notebook.Postgres;
+namespace Notebook.Postgres.Repositories;
 
 public class NoteRepository : INoteRepository
 {
     private readonly IDbContext _dbContext;
-    private IDbConnection _dbConnection;
 
     public NoteRepository(IDbContext context)
     {
@@ -16,16 +15,22 @@ public class NoteRepository : INoteRepository
     }
     public void Create(Note note)
     {
-        throw new NotImplementedException();
+        using(var connection = _dbContext.CreateConnection())
+        {
+            var sql = @"INSERT INTO notes (id, title, content, creationtime, userid)
+                VALUES (@Id, @Title, @Content, @CreationTime, @UserId);";
+            
+            connection.Execute(sql, note);
+        }
     }
 
     public Note? Get(Guid noteId, Guid userId)
     {
-        using (_dbConnection = _dbContext.CreateConnection())
+        using (var connection = _dbContext.CreateConnection())
         {
-            var sql = "select * from get_note(@id, @user_id);";
+            var sql = @"select * from get_note(@id, @user_id);";
             
-            var note = _dbConnection.QueryFirstOrDefault<Note>(sql, new { id = noteId, user_id = userId });
+            var note = connection.QueryFirstOrDefault<Note>(sql, new { id = noteId, user_id = userId });
             return note;
         }
     }
