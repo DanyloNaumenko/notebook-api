@@ -42,8 +42,18 @@ public class NoteRepository : INoteRepository
 
     public bool Update(Note note, Guid userId)
     {
-        throw new NotImplementedException();
+        using var connection = _dbContext.CreateConnection();
+
+        var updateSql = @"UPDATE notes
+                            SET title = @Title,               
+                            content = @Content,             
+                            creationtime = @CreationTime       
+                            WHERE id = @Id AND userid = @UserId;";
+        
+        var result = connection.Execute(updateSql, note);
+        return Convert.ToBoolean(result);
     }
+
 
     public bool Delete(Guid id, Guid userId)
     {
