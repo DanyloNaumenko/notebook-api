@@ -47,9 +47,15 @@ public class UserRepository : IUserRepository
         return users;
     }
 
-    public bool Update(User newUser, Guid id)
+    public bool Update(User newUser)
     {
-        throw new NotImplementedException();
+        using var connection = _dbContext.CreateConnection();
+        var sql = @"UPDATE users
+                    set login = @Login,
+                    passwordHash = @PasswordHash
+                    WHERE id = @Id;";
+        var result = connection.Execute(sql, newUser);
+        return Convert.ToBoolean(result);
     }
 
     public bool Delete(Guid id)

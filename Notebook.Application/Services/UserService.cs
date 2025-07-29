@@ -103,7 +103,7 @@ public class UserService : IUserService
             Login = updateUserDto.Login ?? existing.Login,
         };
         newUser.PasswordHash = updateUserDto.Password != null ? _passwordHasher.HashPassword(newUser, updateUserDto.Password) : existing.PasswordHash;
-        if (!_userRepository.Update(newUser, userId))
+        if (!_userRepository.Update(newUser))
             return new UpdateResultDto()
             {
                 Success = false,
