@@ -62,11 +62,13 @@ public class UserRepository : IUserRepository
 
     public bool ExistsByLogin(string login)
     {
-        throw new NotImplementedException();
+        var user = GetByLogin(login);
+        return user != null;
     }
 
     public bool ExistsById(Guid id)
     {
-        throw new NotImplementedException();
+        var user = GetById(id);
+        return user != null;
     }
 }
