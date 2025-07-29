@@ -33,7 +33,10 @@ public class UserRepository : IUserRepository
 
     public User? GetById(Guid id)
     {
-        throw new NotImplementedException();
+        using var connection = _dbContext.CreateConnection();
+        var sql = @"SELECT * FROM users WHERE id = @Id;";
+        var user = connection.QueryFirstOrDefault<User>(sql, new { Id = id });
+        return user;
     }
 
     public IEnumerable<User> GetAll()
