@@ -41,7 +41,10 @@ public class UserRepository : IUserRepository
 
     public IEnumerable<User> GetAll()
     {
-        throw new NotImplementedException();
+        using var connection = _dbContext.CreateConnection();
+        var sql = @"SELECT * FROM users;";
+        var users = connection.Query<User>(sql);
+        return users;
     }
 
     public bool Update(User newUser, Guid id)
