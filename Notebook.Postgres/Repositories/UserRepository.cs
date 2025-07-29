@@ -54,7 +54,10 @@ public class UserRepository : IUserRepository
 
     public bool Delete(Guid id)
     {
-        throw new NotImplementedException();
+        using var connection = _dbContext.CreateConnection();
+        var sql = @"DELETE FROM users WHERE id = @Id;";
+        var result = connection.Execute(sql, new { Id = id });
+        return Convert.ToBoolean(result);
     }
 
     public bool ExistsByLogin(string login)
