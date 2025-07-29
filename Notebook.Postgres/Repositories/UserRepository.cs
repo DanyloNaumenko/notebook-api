@@ -1,4 +1,5 @@
 using System.Data;
+using Dapper;
 using Notebook.Domain.Interfaces;
 using Notebook.Domain.Models;
 
@@ -13,7 +14,11 @@ public class UserRepository : IUserRepository
     }
     public void Create(User user)
     {
-        throw new NotImplementedException();
+        using var connection = _dbContext.CreateConnection();
+        var sql = @"INSERT INTO users (id, login, passwordHash)
+                VALUES (@Id, @Login, @PasswordHash);";
+            
+        connection.Execute(sql, user);
     }
 
     public User? GetByLogin(string login)
