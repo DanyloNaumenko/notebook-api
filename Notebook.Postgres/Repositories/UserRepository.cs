@@ -23,7 +23,12 @@ public class UserRepository : IUserRepository
 
     public User? GetByLogin(string login)
     {
-        throw new NotImplementedException();
+        using var connection = _dbContext.CreateConnection();
+        
+        var sql = @"SELECT * FROM users WHERE login = @Login;";
+        
+        var user = connection.QueryFirstOrDefault<User>(sql, new { Login = login });
+        return user;
     }
 
     public User? GetById(Guid id)
