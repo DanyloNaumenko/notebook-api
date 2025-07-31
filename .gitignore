@@ -56,3 +56,5 @@ nunit-*.xml
 #IDE
 .idea/
 .vs/
+Notebook.ConsolePresentation/appsettings.json
+NotebookAPI.sln.DotSettings.user

@@ -24,7 +24,7 @@ public class NoteRepository : INoteRepository
     public Note? Get(Guid noteId, Guid userId)
     {
         using var connection = _dbContext.CreateConnection();
-        var sql = @"select * from get_note(@id, @user_id);";
+        var sql = @"select * from notes where id = @Id and userid = @UserId;";
             
         var note = connection.QueryFirstOrDefault<Note>(sql, new { id = noteId, user_id = userId });
         return note;
