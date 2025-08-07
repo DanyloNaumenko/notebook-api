@@ -15,7 +15,7 @@ public class UserRepository : IUserRepository
     public void Create(User user)
     {
         using var connection = _dbContext.CreateConnection();
-        var sql = @"INSERT INTO users (id, login, passwordHash)
+        var sql = @"INSERT INTO users (id, login, password_hash)
                 VALUES (@Id, @Login, @PasswordHash);";
             
         connection.Execute(sql, user);
@@ -52,7 +52,7 @@ public class UserRepository : IUserRepository
         using var connection = _dbContext.CreateConnection();
         var sql = @"UPDATE users
                     set login = @Login,
-                    passwordHash = @PasswordHash
+                    password_hash = @PasswordHash
                     WHERE id = @Id;";
         var result = connection.Execute(sql, newUser);
         return Convert.ToBoolean(result);
@@ -61,6 +61,8 @@ public class UserRepository : IUserRepository
     public bool Delete(Guid id)
     {
         using var connection = _dbContext.CreateConnection();
+        var sqlToDeleteNotes = @"DELETE FROM notes WHERE user_id = @Id;";
+        connection.Execute(sqlToDeleteNotes, new { Id = id });
         var sql = @"DELETE FROM users WHERE id = @Id;";
         var result = connection.Execute(sql, new { Id = id });
         return Convert.ToBoolean(result);

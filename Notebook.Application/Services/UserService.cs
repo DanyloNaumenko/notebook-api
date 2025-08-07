@@ -91,11 +91,18 @@ public class UserService : IUserService
 
     public UpdateResultDto Update(Guid userId, UpdateUserDto updateUserDto)
     {
-        var existing = _userRepository.GetById(userId);
+        User? existing ;
+        existing = _userRepository.GetById(userId);
+        
         if(existing == null) return new UpdateResultDto()
         {
             Success = false,
             ErrorMessage = "User does not exist!"
+        };
+        if (updateUserDto.Login != null && _userRepository.ExistsByLogin(updateUserDto.Login)) return new UpdateResultDto()
+        {
+            Success = false,
+            ErrorMessage = "User with this login already exists!"
         };
         var newUser = new User()
         {

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Notebook.Application.DTOs.UserDTO;
 
 namespace Notebook.Application.DTOs.NoteDTO;
 

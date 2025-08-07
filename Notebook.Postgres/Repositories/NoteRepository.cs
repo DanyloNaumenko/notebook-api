@@ -15,7 +15,7 @@ public class NoteRepository : INoteRepository
     public void Create(Note note)
     {
         using var connection = _dbContext.CreateConnection();
-        var sql = @"INSERT INTO notes (id, title, content, creationtime, userid)
+        var sql = @"INSERT INTO notes (id, title, content, creation_time, user_id)
                 VALUES (@Id, @Title, @Content, @CreationTime, @UserId);";
             
         connection.Execute(sql, note);
@@ -24,9 +24,9 @@ public class NoteRepository : INoteRepository
     public Note? Get(Guid noteId, Guid userId)
     {
         using var connection = _dbContext.CreateConnection();
-        var sql = @"select * from notes where id = @Id and userid = @UserId;";
+        var sql = @"select * from notes where id = @Id and user_id = @UserId;";
             
-        var note = connection.QueryFirstOrDefault<Note>(sql, new { id = noteId, user_id = userId });
+        var note = connection.QueryFirstOrDefault<Note>(sql, new { Id = noteId, UserId = userId });
         return note;
     }
 
@@ -34,7 +34,7 @@ public class NoteRepository : INoteRepository
     {
         using var connection = _dbContext.CreateConnection();
         var sql = @"select * from notes
-                    where userid = @UserId";
+                    where user_id = @UserId";
         
         var notes = connection.Query<Note>(sql, new { UserId = userId });
         return notes;
@@ -47,8 +47,8 @@ public class NoteRepository : INoteRepository
         var updateSql = @"UPDATE notes
                             SET title = @Title,               
                             content = @Content,             
-                            creationtime = @CreationTime       
-                            WHERE id = @Id AND userid = @UserId;";
+                            creation_time = @CreationTime       
+                            WHERE id = @Id AND user_id = @UserId;";
         
         var result = connection.Execute(updateSql, note);
         return Convert.ToBoolean(result);
@@ -60,7 +60,7 @@ public class NoteRepository : INoteRepository
         using var connection = _dbContext.CreateConnection();
         var sql = @"delete from notes
                     where id = @NoteId
-                    and userid = @UserId"; 
+                    and user_id = @UserId"; 
         var result = connection.Execute(sql, new { NoteId = id, UserId = userId });
         return Convert.ToBoolean(result);
     }
