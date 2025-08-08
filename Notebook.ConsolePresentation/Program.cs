@@ -1,9 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Notebook.Application.DTOs.NoteDTO;
+using Notebook.Application.DTOs.UserDTO;
 using Notebook.Application.Services;
 using Notebook.Domain.Interfaces;
 using Notebook.Domain.Models;
@@ -18,6 +20,11 @@ var configuration = new ConfigurationBuilder()
 var serviceCollection = new ServiceCollection();
 serviceCollection.AddScoped<INoteRepository, NoteRepository>();
 serviceCollection.AddScoped<NoteService>();
+serviceCollection.AddScoped<UserService>();
+serviceCollection.AddScoped<IUserRepository, UserRepository>();
+serviceCollection.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+serviceCollection.AddScoped<SessionService>();
+serviceCollection.AddScoped<ISessionRepository, SessionRepository>();
 serviceCollection.AddLogging(config =>
 {
     config.AddConsole(); // вывод в консоль
@@ -29,11 +36,13 @@ serviceCollection.AddScoped<IDbContext, DapperContext>(provider =>
     return new DapperContext(connectionString!);
 });
 
+
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
 var provider = serviceCollection.BuildServiceProvider();
 
 var noteService = provider.GetService<NoteService>();
 var userService = provider.GetService<UserService>();
+var sessionService = provider.GetService<SessionService>();
 
 
-
-    

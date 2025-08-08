@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Notebook.Domain\Notebook.Domain.csproj" />
+      <ProjectReference Include="..\Notebook.Postgres\Notebook.Postgres.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -12,15 +12,19 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
     private readonly ILogger<UserService> _logger;
     private readonly IPasswordHasher<User> _passwordHasher;
-    
+    private readonly SessionService _sessionService;
+    private readonly TimeSpan _sessionTime = TimeSpan.FromHours(24);
+
     public UserService(
         IUserRepository userRepository,
         ILogger<UserService> logger,
-        IPasswordHasher<User> passwordHasher)
+        IPasswordHasher<User> passwordHasher,
+        SessionService sessionService)
     {
         _userRepository = userRepository;
         _logger = logger;
         _passwordHasher = passwordHasher;
+        _sessionService = sessionService;
     }
     
     public RegisterResultDto Register(RegisterUserDto registerUserDto)
@@ -46,7 +50,6 @@ public class UserService : IUserService
         {
             Success = true,
             UserId = user.Id,
-            Token = ""
         };
     }
 
@@ -61,19 +64,19 @@ public class UserService : IUserService
             };
         
         var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginUserDto.Password);
-        if (result == PasswordVerificationResult.Success)
-        {
+        if (result != PasswordVerificationResult.Success)
             return new LoginResultDto()
             {
-                Success = true,
-                UserId = user.Id,
-                Token = ""
+                Success = false,
+                ErrorMessage = "Login failed because of invalid password!"
             };
-        }
+        _sessionService.DeactivateAllForUser(user.Id);
+        var session = _sessionService.CreateSession(user.Id, _sessionTime);
         return new LoginResultDto()
         {
-            Success = false,
-            ErrorMessage = "Login failed because of invalid password!"
+            Success = true,
+            UserId = user.Id,
+            Token = session.Token
         };
     }
 
@@ -91,7 +94,7 @@ public class UserService : IUserService
 
     public UpdateResultDto Update(Guid userId, UpdateUserDto updateUserDto)
     {
-        User? existing ;
+        User? existing;
         existing = _userRepository.GetById(userId);
         
         if(existing == null) return new UpdateResultDto()
