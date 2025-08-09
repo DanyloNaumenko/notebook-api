@@ -8,7 +8,7 @@ public class Migration_20250807_1 :  Migration
     public override void Up()
     {
         var sql = $@"
-                    create table if not exists sessions (
+                create table if not exists sessions (
                     id uuid primary key,
                     user_id uuid not null references users(id),
                     token text not null unique,
