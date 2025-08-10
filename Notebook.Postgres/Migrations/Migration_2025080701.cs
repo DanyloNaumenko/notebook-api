@@ -2,8 +2,8 @@ using FluentMigrator;
 
 namespace Notebook.Postgres.Migrations;
 
-[Migration(20250807_1)]
-public class Migration_20250807_1 :  Migration
+[Migration(2025080701)]
+public class Migration_2025080701 :  Migration
 {
     public override void Up()
     {

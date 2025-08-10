@@ -3,20 +3,20 @@ using FluentMigrator.Postgres;
 
 namespace Notebook.Postgres.Migrations;
 
-[Migration(202507311_1)]
-public class Migration_20250731_1 : Migration
+[Migration(20250731101)]
+public class Migration_2025073101 : Migration
 {
     public override void Up()
     {
         Execute.Sql(@"
             create table if not exists users (
-                id uuid primary key,
-                login text not null unique,
+                id uuid primary key not null,
+                login text not null,
                 password_hash text not null
             );
 
             create table if not exists notes (
-                id uuid primary key,
+                id uuid primary key not null,
                 title text not null,
                 content text not null,
                 creation_time timestamp with time zone not null,
