@@ -50,13 +50,13 @@ public class SessionService : ISessionService
         _sessionRepository.DeactivateByToken(token);
     }
 
-    public IEnumerable<Session> GetAllSessionsForUser(Guid userId)
-    {
-        return _sessionRepository.GetAllForUser(userId);
-    }
-
     public void DeactivateExpiredSessions()
     {
         _sessionRepository.DeactivateExpired();
+    }
+
+    public Session? GetCurrentUserSession(Guid userId)
+    {
+        return _sessionRepository.GetCurrentUserSession(userId);
     }
 }

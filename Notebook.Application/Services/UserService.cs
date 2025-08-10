@@ -63,15 +63,16 @@ public class UserService : IUserService
                 ErrorMessage = "Login failed because of user does not exist! Maybe you wanted to register it?"
             };
         
-        var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginUserDto.Password);
-        if (result != PasswordVerificationResult.Success)
+        var passwordCompareResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginUserDto.Password);
+        if (passwordCompareResult != PasswordVerificationResult.Success)
             return new LoginResultDto()
             {
                 Success = false,
                 ErrorMessage = "Login failed because of invalid password!"
             };
-        _sessionService.DeactivateAllForUser(user.Id);
-        var session = _sessionService.CreateSession(user.Id, _sessionTime);
+        var session = _sessionService.GetCurrentUserSession(user.Id);
+        if (session == null) 
+            session = _sessionService.CreateSession(user.Id, _sessionTime);
         return new LoginResultDto()
         {
             Success = true,

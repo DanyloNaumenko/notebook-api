@@ -37,13 +37,12 @@ public class SessionRepository : ISessionRepository
         return connection.QueryFirstOrDefault<Session>(sql, new { Token = token });
     }
 
-    public IEnumerable<Session> GetAllForUser(Guid userId)
+    public Session? GetCurrentUserSession(Guid userId)
     {
         using var connection = _dbContext.CreateConnection();
         var sql = "SELECT * FROM sessions WHERE user_id = @UserId AND is_active = true;";
-        return connection.Query<Session>(sql, new { UserId = userId });
+        return connection.QueryFirstOrDefault<Session>(sql, new { UserId = userId });
     }
-
     public void DeactivateById(Guid id)
     {
         using var connection = _dbContext.CreateConnection();
