@@ -12,14 +12,14 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
     private readonly ILogger<UserService> _logger;
     private readonly IPasswordHasher<User> _passwordHasher;
-    private readonly SessionService _sessionService;
-    private readonly TimeSpan _sessionTime = TimeSpan.FromHours(24);
+    private readonly ISessionService _sessionService;
+    private readonly TimeSpan _sessionTime = TimeSpan.FromMinutes(45);
 
     public UserService(
         IUserRepository userRepository,
         ILogger<UserService> logger,
         IPasswordHasher<User> passwordHasher,
-        SessionService sessionService)
+        ISessionService sessionService)
     {
         _userRepository = userRepository;
         _logger = logger;

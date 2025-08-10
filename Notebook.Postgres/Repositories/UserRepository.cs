@@ -25,7 +25,7 @@ public class UserRepository : IUserRepository
     {
         using var connection = _dbContext.CreateConnection();
         
-        var sql = @"SELECT * FROM users WHERE login = @Login;";
+        var sql = @"SELECT * FROM users WHERE login = @Login AND is_active = true;";
         
         var user = connection.QueryFirstOrDefault<User>(sql, new { Login = login });
         return user;
@@ -34,7 +34,7 @@ public class UserRepository : IUserRepository
     public User? GetById(Guid id)
     {
         using var connection = _dbContext.CreateConnection();
-        var sql = @"SELECT * FROM users WHERE id = @Id;";
+        var sql = @"SELECT * FROM users WHERE id = @Id AND is_active = true;";
         var user = connection.QueryFirstOrDefault<User>(sql, new { Id = id });
         return user;
     }
@@ -61,10 +61,15 @@ public class UserRepository : IUserRepository
     public bool Delete(Guid id)
     {
         using var connection = _dbContext.CreateConnection();
+        
         var sqlToDeleteNotes = @"DELETE FROM notes WHERE user_id = @Id;";
+        
         connection.Execute(sqlToDeleteNotes, new { Id = id });
-        var sql = @"DELETE FROM users WHERE id = @Id;";
-        var result = connection.Execute(sql, new { Id = id });
+        
+        var sqlToDeactivateUser = @"UPDATE users 
+                    SET is_active = false
+                    WHERE id = @Id;";
+        var result = connection.Execute(sqlToDeactivateUser, new { Id = id });
         return Convert.ToBoolean(result);
     }
 
