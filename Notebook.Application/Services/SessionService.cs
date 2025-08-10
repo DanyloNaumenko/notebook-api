@@ -10,12 +10,10 @@ namespace Notebook.Application.Services;
 
 public class SessionService : ISessionService
 {
-    private readonly ILogger<SessionService> _logger;
     private readonly ISessionRepository _sessionRepository;
 
-    public SessionService(ILogger<SessionService> logger, ISessionRepository sessionRepository)
+    public SessionService(ISessionRepository sessionRepository)
     {
-        _logger = logger;
         _sessionRepository = sessionRepository;
     }
 
@@ -32,34 +30,24 @@ public class SessionService : ISessionService
         };
 
         _sessionRepository.Create(session);
-        _logger.LogInformation($"Создана новая сессия для пользователя {userId} " +
-                               $"с токеном {session.Token}.");
-
         return session;
     }
 
     public Session? GetSessionByToken(string token)
     {
         var session = _sessionRepository.GetByToken(token);
-
-        if (session == null)
-        {
-            _logger.LogWarning("Сессия не найдена или неактивна: {Token}", token);
-        }
-
+        
         return session;
     }
 
     public void DeactivateAllForUser(Guid userId)
     {
         _sessionRepository.DeactivateAllByUserId(userId);
-        _logger.LogInformation($"Сессии пользователя {userId} деактивированы");
     }
     
     public void DeactivateSessionByToken(string token)
     {
         _sessionRepository.DeactivateByToken(token);
-        _logger.LogInformation("Сессия деактивирована: {Token}", token);
     }
 
     public IEnumerable<Session> GetAllSessionsForUser(Guid userId)
@@ -70,6 +58,5 @@ public class SessionService : ISessionService
     public void DeactivateExpiredSessions()
     {
         _sessionRepository.DeactivateExpired();
-        _logger.LogInformation("Все просроченные сессии деактивированы");
     }
 }
