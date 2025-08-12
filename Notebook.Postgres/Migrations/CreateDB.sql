@@ -10,6 +10,7 @@ create table if not exists notes (
     title text not null,
     content text not null,
     creation_time timestamp not null,
+    is_active boolean not null default true,
     user_id uuid not null references users(id)
 );
 
